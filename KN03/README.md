@@ -26,6 +26,16 @@ sudo mysql -sfu root -e "GRANT ALL ON _._ TO 'admin'@'%' IDENTIFIED BY 'Ubuntu' 
 - mysql -u admin -p
 ```
 
-Dann mit dem command **SELECT Host, User FROM mysql.user;** habe ich folgendes ausgeben lassen.
-
+Dann mit dem command **SELECT Host, User FROM mysql.user;** habe ich folgendes ausgeben lassen:
 ![alt text](images/image2.png)
+Meine SQL-SELECT-Abfrage liest die Daten aus der Tabelle `TABELLENNAME` aus und zeigt die gespeicherten Datensätze an. Damit überprüfe ich, dass die Datenbank funktioniert und korrekt verbunden ist.
+
+website mit public ip:
+
+![alt text](images/image3.png)
+
+instanz details
+![alt text](images/image.png)
+
+inbound, outbound rules
+![alt text](images/image4.png)
