@@ -36,3 +36,15 @@ Danach habe ich folgende commands in der Reihenfolge ausgeführt:
 Diese commands habe ich in der AWS SSH-Connection gefunden und nachbefolgt.
 
 ![Details der Instanzerstellung](./images/image5.png)
+
+### Zweiter schlüssel anwenden für ssh verbindung:
+
+![Details der Instanzerstellung](./images/image8.png)
+
+### Statistiken der Instanz
+
+![alt text](./images/image9.png)
+
+![alt text](./images/image10.png)
+
+![alt text](./images/image11.png)
