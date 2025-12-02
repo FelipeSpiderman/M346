@@ -1,0 +1,41 @@
+#cloud-config
+users:
+  - name: ubuntu
+    groups: [users, admin]
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCBbHvAj9/hYpjc4T02Hkmpax2g+o+PaLo4cG+NYSeibea+mL60JY1jdj8mfdFJoZKkXB1DPY3hoJNvck8A6MquKr4pA4fYUiQ2F2z4zJix5/bFY5YFuz2Lybf614glCEcey9N9Q+mrtt55HhSFpFuRz5fEfKZOL2K5nL9wCGWKkC8UFwrNeXmb6H2xR1UmtafXXQuvf2V8/srJvwT2yk+x4QJkfQlokYTlQ07/OsGYTbLIwDNJkmSiVYI9mQp1q1qvRhm5Ulxr9eO3VTyxQiFfB5cLMe3oVVJZDtq5q2sxb7OZu1sL8ozB1wiSdBR5/ZHSXhiva5dI7tSCIwUzUq5 aws-key
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WGP1EZykEtv5YGC9nMiPFW3U3DmZNzKFO5nEu6uozEHh4jLZzPNHSrfFTuQ2GnRDSt+XbOtTLdcj26+iPNiFoFha42aCIzYjt6V8Z+SQ9pzF4jPPzxwXfDdkEWylgoNnZ+4MG1lNFqa8aO7F62tX0Yj5khjC0Bs7Mb2cHLx1XZaxJV6qSaulDuBbLYe8QUZXkMc7wmob3PM0kflfolR3LE7LResIHWa4j4FL6r5cQmFlDU2BDPpKMFMGUfRSFiUtaWBNXFOWHQBC2+uKmuMPYP4vJC9sBgqMvPN/X2KyemqdMvdKXnCfrzadHuSSJYEzD64Cve5Zl9yVvY4AqyBD aws-key
+
+ssh_pwauth: false
+disable_root: false
+package_update: true
+
+packages:
+  - apache2
+  - php
+  - libapache2-mod-php
+  - php-mysqli
+  - adminer
+
+write_files:
+  - path: /var/www/html/index.html
+    content: |
+      <h1>Hallo Welt</h1>
+
+  - path: /var/www/html/info.php
+    content: |
+      <?php phpinfo(); ?>
+
+  - path: /var/www/html/db.php
+    content: |
+      <?php
+      $conn = new mysqli("172.31.70.213", "admin", "password");
+      if ($conn->connect_error) { die("Connsudo systemctl status apache2ection failed: " . $conn->connect_error); }
+      echo "Connected successfully!";
+      ?>
+
+runcmd:
+  - a2enconf adminer
+  - systemctl restart apache2

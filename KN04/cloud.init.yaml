@@ -1,0 +1,34 @@
+#cloud-config
+# This line tells the system that this file is a cloud-init configuration
+
+users:
+  - name: ubuntu
+    # Creates a new user named 'ubuntu'
+
+    groups: [users, admin]
+    # Adds the user to the 'users' and 'admin' groups
+
+    shell: /bin/bash
+    # Sets the default shell for the user to bash
+
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    # Grants the user passwordless sudo privileges for all commands
+
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCBbHvAj9/hYpjc4T02Hkmpax2g+o+PaLo4cG+NYSeibea+mL60JY1jdj8mfdFJoZKkXB1DPY3hoJNvck8A6MquKr4pA4fYUiQ2F2z4zJix5/bFY5YFuz2Lybf614glCEcey9N9Q+mrtt55HhSFpFuRz5fEfKZOL2K5nL9wCGWKkC8UFwrNeXmb6H2xR1UmtafXXQuvf2V8/srJvwT2yk+x4QJkfQlokYTlQ07/OsGYTbLIwDNJkmSiVYI9mQp1q1qvRhm5Ulxr9eO3VTyxQiFfB5cLMe3oVVJZDtq5q2sxb7OZu1sL8ozB1wiSdBR5/ZHSXhiva5dI7tSCIwUzUq5 aws-key
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WGP1EZykEtv5YGC9nMiPFW3U3DmZNzKFO5nEu6uozEHh4jLZzPNHSrfFTuQ2GnRDSt+XbOtTLdcj26+iPNiFoFha42aCIzYjt6V8Z+SQ9pzF4jPPzxwXfDdkEWylgoNnZ+4MG1lNFqa8aO7F62tX0Yj5khjC0Bs7Mb2cHLx1XZaxJV6qSaulDuBbLYe8QUZXkMc7wmob3PM0kflfolR3LE7LResIHWa4j4FL6r5cQmFlDU2BDPpKMFMGUfRSFiUtaWBNXFOWHQBC2+uKmuMPYP4vJC9sBgqMvPN/X2KyemqdMvdKXnCfrzadHuSSJYEzD64Cve5Zl9yVvY4AqyBD aws-key
+      # Adds your public SSH key so you can log in with your private key
+
+ssh_pwauth: false
+# Disables password authentication for SSH (only key-based login allowed)
+
+disable_root: false
+# Root account is not disabled (can log in as root if needed)
+
+package_update: true
+# Updates the package repository information on first boot
+
+packages:
+  - curl
+  - wget
+# Installs additional packages during initial boot (here: curl and wget)
