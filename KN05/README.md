@@ -15,3 +15,6 @@ Webserver: 10.0.2.10
 Datenbank: 10.0.2.20
 
 (Regeln: im Bereich des Subnet-KN05 und letzte Zahl durch 10 teilbar)
+
+Seurity regeln:
+![alt text](images/image3.png)
