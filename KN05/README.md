@@ -10,8 +10,8 @@ Alle Subnets:
 ![alt text](images/image4.png)
 
 Subnet of KN04
-![alt text](images/image.png)
-![alt text](images/image2.png)
+![file path](images/image.png)
+![file path](images/image2.png)
 
 Irgendein Subnet zu KN05 nennen:
 ![alt text](images/image5.png)
@@ -29,6 +29,27 @@ Elastic IP allocaten und umbenennen:
 ![alt text](images/image6.png)
 ![alt text](images/image7.png)
 
+für die instanz diese yaml files benutzen:
+![alt text](KN05-db.yaml)
+![alt text](KN05-web.yaml)
+
 instanz security groups:
 ![alt text](images/image8.png)
 ![alt text](images/image9.png)
+
+inbound rules:
+![alt text](images/image10.png)
+![alt text](images/image11.png)
+
+stopping the instances info:
+![alt text](images/image12.png)
+![alt text](images/image13.png)
+
+isntance after restart:
+![alt text](images/image14.png)
+![alt text](images/image15.png)
+
+checking if the server works:
+![alt text](images/image16.png)
+![alt text](images/image17.png)
+![alt text](images/image18.png)

@@ -31,7 +31,7 @@ write_files:
   - path: /var/www/html/db.php
     content: |
       <?php
-      $conn = new mysqli("172.31.68.243", "admin", "password");
+      $conn = new mysqli("172.31.27.201", "admin", "password");
       if ($conn->connect_error) { die("Connsudo systemctl status apache2ection failed: " . $conn->connect_error); }
       echo "Connected successfully!";
       ?>

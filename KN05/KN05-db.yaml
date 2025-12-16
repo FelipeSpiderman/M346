@@ -13,29 +13,11 @@ disable_root: false
 package_update: true
 
 packages:
-  - apache2
-  - php
-  - libapache2-mod-php
-  - php-mysql
-  - adminer
-
-write_files:
-  - path: /var/www/html/index.html
-    content: |
-      <h1>Hallo Welt</h1>
-
-  - path: /var/www/html/info.php
-    content: |
-      <?php phpinfo(); ?>
-
-  - path: /var/www/html/db.php
-    content: |
-      <?php
-      $conn = new mysqli("172.31.68.243", "admin", "password");
-      if ($conn->connect_error) { die("Connsudo systemctl status apache2ection failed: " . $conn->connect_error); }
-      echo "Connected successfully!";
-      ?>
+  - mariadb-server
 
 runcmd:
-  - a2enconf adminer
-  - systemctl restart apache2
+  - sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+  - systemctl restart mariadb
+  - mysql -e "CREATE USER 'admin'@'%' IDENTIFIED BY 'password';"
+  - mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%';"
+  - mysql -e "FLUSH PRIVILEGES;"
