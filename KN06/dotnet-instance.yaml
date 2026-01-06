@@ -1,0 +1,72 @@
+#cloud-config
+users:
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    home: /home/ubuntu
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCBbHvAj9/hYpjc4T02Hkmpax2g+o+PaLo4cG+NYSeibea+mL60JY1jdj8mfdFJoZKkXB1DPY3hoJNvck8A6MquKr4pA4fYUiQ2F2z4zJix5/bFY5YFuz2Lybf614glCEcey9N9Q+mrtt55HhSFpFuRz5fEfKZOL2K5nL9wCGWKkC8UFwrNeXmb6H2xR1UmtafXXQuvf2V8/srJvwT2yk+x4QJkfQlokYTlQ07/OsGYTbLIwDNJkmSiVYI9mQp1q1qvRhm5Ulxr9eO3VTyxQiFfB5cLMe3oVVJZDtq5q2sxb7OZu1sL8ozB1wiSdBR5/ZHSXhiva5dI7tSCIwUzUq5 aws-key
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC40EYi7Lw8HLnXFy7V7pkIzMq/3nmkGKBQicdxWr0GMjqm0LM/Qe4LY7hpxiQ1778YAfuzz0mzXvmnhr6QpmTdHR1Qjy3FSrUq2UnfAynjVwvHqjqyJ/03ZBR3W2HABJbICyrv217acJWcV6r2KRKlmsQjSRpA7KB3nhBBCEHdNB8578nVVpcj0mcHMQS54X2VPdbwBhiWp2P8p1q5ucYsmjFRegxH1wSb9WPK9Y+SApYZRWzbf18jjpQJKl0ZHgJvF57pUWGXN9DZWkN8ZDbftKBjcwgZIXdU0kLQr63jdnpXYa0c6C9stjEjiqfOD9Yflqwg+4YyYYtR/x8i+08H aws-key
+ssh_pwauth: true
+disable_root: false
+package_update: true
+packages:
+  - curl
+  - wget
+  - nginx
+  - aspnetcore-runtime-8.0
+write_files:
+  - content: |
+      [Unit]
+      Description=Demo Shop
+      [Service]
+      WorkingDirectory=/var/www/app
+      ExecStart=/usr/bin/dotnet /var/www/app/ShopDemo.dll
+      Restart=always
+      RestartSec=10
+      KillSignal=SIGINT
+      SyslogIdentifier=dotnet-example
+      User=www-data
+      Environment=ASPNETCORE_ENVIRONMENT=Production
+      Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+      [Install]
+      WantedBy=multi-user.target
+    path: /etc/systemd/system/shop-app.service
+  - content: |
+      server {
+        listen        80;
+        server_name   default;
+        location / {
+          proxy_pass         http://127.0.0.1:5000;
+          proxy_http_version 1.1;
+          proxy_set_header   Upgrade $http_upgrade;
+          proxy_set_header   Connection keep-alive;
+          proxy_set_header   Host $host;
+          proxy_cache_bypass $http_upgrade;
+          proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header   X-Forwarded-Proto $scheme;
+        }
+      }
+    path: /home/ubuntu/nginx
+runcmd:
+  - sudo git clone https://gitlab.com/ch-tbz-it/Stud/m346/m346scripts.git /home/ubuntu/m346scripts
+  # install mongodb shell
+  - sudo wget -qO- https://www.mongodb.org/static/pgp/server-6.0.asc | sudo tee /etc/apt/trusted.gpg.d/server-6.0.asc
+  - sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+  - sudo apt-get update
+  - sudo apt-get install -y mongodb-mongosh
+  # import mongodb collections
+  - mongosh "mongodb+srv://[[cluster0.9jqkd9k.mongodb.net/]]/" -u [[felipepereira_db_user]] -p [[Qv7lJ7y5Kc2lBRT8]] < /home/ubuntu/m346scripts/KN06/shop-database-mongodb.txt
+  # install App
+  - sudo mkdir /var/www
+  - sudo mkdir /var/www/app
+  - sudo sed -i 's/<clusterUrl>/[[mongodb+srv://cluster0.9jqkd9k.mongodb.net/]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
+  - sudo sed -i 's/<username>/[[felipepereira_db_user]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
+  - sudo sed -i 's/<password>/[[Qv7lJ7y5Kc2lBRT8]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
+  - sudo cp -r /home/ubuntu/m346scripts/KN06/dotnet/* /var/www/app/
+  - sudo systemctl enable shop-app.service
+  - sudo systemctl start shop-app.service
+  - sudo service nginx start
+  - sudo cp /home/ubuntu/nginx /etc/nginx/sites-available/default
+  - sudo nginx -s reload
