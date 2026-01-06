@@ -474,7 +474,7 @@ Die reinen Cloud-Kosten sind nur ein Teil der Gesamtkosten (Total Cost of Owners
 - Laufende Verwaltung: 1-2 Stunden/Woche
 - User-Support: 2-4 Stunden/Woche
 
-**Realistische SaaS-Gesamtkosten (Zoho):** €600 + $400-600 = ca. $1,050-1,250/Monat
+**Realistische SaaS-Gesamtkosten (Zoho):** €600 + $400-600 = ca. $1,050-1,250/Monat  
 **Realistische SaaS-Gesamtkosten (Salesforce):** $2,400 + $400-600 = ca. $2,800-3,000/Monat
 
 ---
@@ -486,8 +486,8 @@ Jetzt vergleichen wir die **realistischen Gesamtkosten** über 3 Jahre:
 | Variante            | Monatlich (real) | 3 Jahre Total      | TCO Ranking       |
 | ------------------- | ---------------- | ------------------ | ----------------- |
 | **Heroku PaaS**     | $875-1,075       | **$31,500-38,700** | 1️⃣ **Best Value** |
-| **AWS IaaS**        | $2,057-3,057     | $74,052-110,052    | 2️⃣                |
-| **Zoho SaaS**       | $1,050-1,250     | $37,800-45,000     | 3️⃣                |
+| **Zoho SaaS**       | $1,050-1,250     | $37,800-45,000     | 2️⃣                |
+| **AWS IaaS**        | $2,057-3,057     | $74,052-110,052    | 3️⃣                |
 | **Azure IaaS**      | $2,080-3,080     | $74,880-110,880    | 4️⃣                |
 | **Salesforce SaaS** | $2,800-3,000     | $100,800-108,000   | 5️⃣                |
 
@@ -608,16 +608,3 @@ Jetzt vergleichen wir die **realistischen Gesamtkosten** über 3 Jahre:
 - Git Workflow
 - Verständnis von Environment Variables
 - Grundlegendes Database-Know-how
-
-**Laufender Aufwand: Niedrig-Mittel (0.2-0.3 FTE)**
-
-**Wöchentliche Aufgaben:**
-
-- Deployments bei neuen Features (1-2 Stunden/Woche)
-- Monitoring-Dashboard prüfen (0.5-1 Stunde/Woche)
-- Support bei User-Problemen (1-2 Stunden/Woche)
-
-**Monatliche Aufgaben:**
-
-- Performance-Analyse (1-2 Stunden/Monat)
--
