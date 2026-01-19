@@ -7,8 +7,7 @@ users:
     shell: /bin/bash
     ssh_authorized_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCBbHvAj9/hYpjc4T02Hkmpax2g+o+PaLo4cG+NYSeibea+mL60JY1jdj8mfdFJoZKkXB1DPY3hoJNvck8A6MquKr4pA4fYUiQ2F2z4zJix5/bFY5YFuz2Lybf614glCEcey9N9Q+mrtt55HhSFpFuRz5fEfKZOL2K5nL9wCGWKkC8UFwrNeXmb6H2xR1UmtafXXQuvf2V8/srJvwT2yk+x4QJkfQlokYTlQ07/OsGYTbLIwDNJkmSiVYI9mQp1q1qvRhm5Ulxr9eO3VTyxQiFfB5cLMe3oVVJZDtq5q2sxb7OZu1sL8ozB1wiSdBR5/ZHSXhiva5dI7tSCIwUzUq5 aws-key
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WGP1EZykEtv5YGC9nMiPFW3U3DmZNzKFO5nEu6uozEHh4jLZzPNHSrfFTuQ2GnRDSt+XbOtTLdcj26+iPNiFoFha42aCIzYjt6V8Z+SQ9pzF4jPPzxwXfDdkEWylgoNnZ+4MG1lNFqa8aO7F62tX0Yj5khjC0Bs7Mb2cHLx1XZaxJV6qSaulDuBbLYe8QUZXkMc7wmob3PM0kflfolR3LE7LResIHWa4j4FL6r5cQmFlDU2BDPpKMFMGUfRSFiUtaWBNXFOWHQBC2+uKmuMPYP4vJC9sBgqMvPN/X2KyemqdMvdKXnCfrzadHuSSJYEzD64Cve5Zl9yVvY4AqyBD aws-key
-
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC40EYi7Lw8HLnXFy7V7pkIzMq/3nmkGKBQicdxWr0GMjqm0LM/Qe4LY7hpxiQ1778YAfuzz0mzXvmnhr6QpmTdHR1Qjy3FSrUq2UnfAynjVwvHqjqyJ/03ZBR3W2HABJbICyrv217acJWcV6r2KRKlmsQjSRpA7KB3nhBBCEHdNB8578nVVpcj0mcHMQS54X2VPdbwBhiWp2P8p1q5ucYsmjFRegxH1wSb9WPK9Y+SApYZRWzbf18jjpQJKl0ZHgJvF57pUWGXN9DZWkN8ZDbftKBjcwgZIXdU0kLQr63jdnpXYa0c6C9stjEjiqfOD9Yflqwg+4YyYYtR/x8i+08H aws-key
 ssh_pwauth: true
 disable_root: false
 package_update: true
@@ -16,26 +15,22 @@ packages:
   - curl
   - wget
   - nginx
-  - openjdk-17-jre-headless
+  - aspnetcore-runtime-8.0
 write_files:
-  - content:
+  - content: |
       [Unit]
       Description=Demo Shop
-      After=syslog.target
       [Service]
-      WorkingDirectory=/var/www/app# Check if app service is running
-sudo systemctl status shop-app.service
-
-# Check nginx
-sudo systemctl status nginx
-
-# Check app logs
-sudo journalctl -u shop-app.service -n 50
-      User=www-data
-      ExecStart=java -jar /var/www/app/shopdemo-1.0.0.jar --spring.config.additional-location=/var/www/app/production.properties SuccessExitStatus=143 
+      WorkingDirectory=/var/www/app
+      ExecStart=/usr/bin/dotnet /var/www/app/ShopDemo.dll
       Restart=always
       RestartSec=10
-      [Install] 
+      KillSignal=SIGINT
+      SyslogIdentifier=dotnet-example
+      User=www-data
+      Environment=ASPNETCORE_ENVIRONMENT=Production
+      Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+      [Install]
       WantedBy=multi-user.target
     path: /etc/systemd/system/shop-app.service
   - content: |
@@ -43,7 +38,7 @@ sudo journalctl -u shop-app.service -n 50
         listen        80;
         server_name   default;
         location / {
-          proxy_pass         http://127.0.0.1:5001;
+          proxy_pass         http://127.0.0.1:5000;
           proxy_http_version 1.1;
           proxy_set_header   Upgrade $http_upgrade;
           proxy_set_header   Connection keep-alive;
@@ -62,14 +57,14 @@ runcmd:
   - sudo apt-get update
   - sudo apt-get install -y mongodb-mongosh
   # import mongodb collections
-  - mongosh "mongodb+srv://felipepereira_db_user:Qv7lJ7y5Kc2lBRT8@kn06.b4p33n6.mongodb.net/" --u felipepereira_db_user -p Qv7lJ7y5Kc2lBRT8 < /home/ubuntu/m346scripts/KN06/shop-database-mongodb.txt
+  - mongosh "mongodb+srv://[[cluster0.9jqkd9k.mongodb.net/]]/" -u [[felipepereira_db_user]] -p [[Qv7lJ7y5Kc2lBRT8]] < /home/ubuntu/m346scripts/KN06/shop-database-mongodb.txt
   # install App
   - sudo mkdir /var/www
   - sudo mkdir /var/www/app
-  - sudo sed -i 's/<clusterUrl>/felipepereira_db_user:Qv7lJ7y5Kc2lBRT8@kn06.b4p33n6.mongodb.net/g' /home/ubuntu/m346scripts/KN06/java/production.properties
-  - sudo sed -i 's/<username>/felipepereira_db_user/g' /home/ubuntu/m346scripts/KN06/java/production.properties
-  - sudo sed -i 's/<password>/Qv7lJ7y5Kc2lBRT8/g' /home/ubuntu/m346scripts/KN06/java/production.properties
-  - sudo cp -r /home/ubuntu/m346scripts/KN06/java/* /var/www/app/
+  - sudo sed -i 's/<clusterUrl>/[[mongodb+srv://cluster0.9jqkd9k.mongodb.net/]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
+  - sudo sed -i 's/<username>/[[felipepereira_db_user]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
+  - sudo sed -i 's/<password>/[[Qv7lJ7y5Kc2lBRT8]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
+  - sudo cp -r /home/ubuntu/m346scripts/KN06/dotnet/* /var/www/app/
   - sudo systemctl enable shop-app.service
   - sudo systemctl start shop-app.service
   - sudo service nginx start
