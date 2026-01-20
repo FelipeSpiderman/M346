@@ -31,6 +31,7 @@ application:
 ![alt text](images/5.png)
 ![alt text](images/6.png)
 ![alt text](images/7.png)
+![alt text](images/13.png)
 
 Ressourcen/Objekte:
 ![alt text](images/8.png)
@@ -39,21 +40,23 @@ Ressourcen/Objekte:
 ![alt text](images/11.png)
 ![alt text](images/12.png)
 
-CloudFormation ist Infrastructure as Code (IaC) - ein AWS Service der 
-Infrastruktur mit Templates (YAML/JSON) beschreibt. Beim Deployment 
-erstellt AWS automatisch alle definierten Ressourcen (EC2, Load Balancer, 
-Security Groups etc.) als einen zusammenhängenden Stack. 
+CloudFormation ist Infrastructure as Code (IaC) - ein AWS Service der
+Infrastruktur mit Templates (YAML/JSON) beschreibt. Beim Deployment
+erstellt AWS automatisch alle definierten Ressourcen (EC2, Load Balancer,
+Security Groups etc.) als einen zusammenhängenden Stack.
 
 Unterschied zu Cloud-Init:
-- CloudFormation: Erstellt und orchestriert MEHRERE AWS Ressourcen 
+
+- CloudFormation: Erstellt und orchestriert MEHRERE AWS Ressourcen
   (komplette Infrastruktur)
-- Cloud-Init: Konfiguriert nur EINE einzelne EC2 Instanz nach dem 
+- Cloud-Init: Konfiguriert nur EINE einzelne EC2 Instanz nach dem
   Booten (User Data Script)
 
 CloudFormation = Infrastruktur-Ebene
 Cloud-Init = Instanz-Ebene
 
 In KN06 mussten wir MANUELL erstellen:
+
 - Load Balancer konfigurieren
 - Target Groups erstellen
 - Auto Scaling Groups einrichten
@@ -61,6 +64,7 @@ In KN06 mussten wir MANUELL erstellen:
 - Jede Komponente separat verknüpfen
 
 Mit Elastic Beanstalk (PAAS):
+
 - Alles wurde AUTOMATISCH via CloudFormation erstellt
 - Konsistente Configuration ohne Fehler
 - Viel schneller (Minuten statt Stunden)
