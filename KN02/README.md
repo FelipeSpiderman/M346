@@ -1,5 +1,15 @@
 # KN02: IaaS - Virtuelle Server
 
+## Korrektur
+
+Fehler:
+C) Abgabe fehlt: Screenshot mit dem ssh-Befehl und des Resultats unter Verwendung des zweiten Schlüssels
+
+--> Ihre Datei hat zu viele Rechte, darum der Fehler
+
+Lösung:
+![alt text](images/12.png)
+
 ## A) Umgang mit AWS Kurs (20%)
 
 Zu Beginn in AWS habe ich auf **Launch AWS Academy Learner Lab** geklickt. Dort kann ich mein Lab starten, sehe wie viel Zeit ich noch zur verfügung habe, kann meine Lab starten und stoppen und ich kann auch auf dem **AWS** mit dem grünen Punkt klicken, welches mich zu einer neuen Page führt
