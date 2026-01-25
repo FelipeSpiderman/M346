@@ -21,10 +21,9 @@ DB server läuft nicht korrekt
 
 Lösung:
 
-
-
-
-
+![alt text](images/3.png)
+![alt text](images/2.png)
+![alt text](images/1.png)
 
 Instanzerstellung mit init.yaml
 ![alt text](images/image4.png)
