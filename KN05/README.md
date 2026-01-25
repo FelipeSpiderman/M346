@@ -1,5 +1,36 @@
 # KN05
 
+## Korrektur
+
+Fehler:
+
+private IPs definieren und dann auch setzen in den instanzen
+
+security groups überarbeiten
+
+outgoing ports (all open)
+3306 muss eingeschränkt sein - gemäss auftrag!
+
+static ips wurden nicht zugewiesen
+
+Lösung:
+
+Webserver: 172.31.32.10
+Datenbank: 172.31.32.20
+
+![alt text](images/1.png)
+![alt text](images/2.png)
+![alt text](images/3.png)
+![alt text](images/4.png)
+![alt text](images/5.png)
+![alt text](images/7.png)
+![alt text](images/6.png)
+![alt text](images/8.png)
+![alt text](images/9.png)
+![alt text](images/10.png)
+![alt text](images/11.png)
+![alt text](images/12.png)
+
 VPC: Ein eigenes, isoliertes Netzwerk in AWS, in dem deine Server laufen.
 Subnet: Ein Teilbereich der VPC. Es teilt das Netzwerk in kleinere Zonen.
 Private IP: Nur intern in AWS erreichbar. Nicht über das Internet sichtbar.
