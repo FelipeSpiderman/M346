@@ -1,5 +1,16 @@
 # KN06
 
+## Korrektur
+
+Fehler:
+.NET App läuft nicht, weil im cloud-init die Werte noch falsch ersetzt werden.
+
+Sicherstellen, dass alle teile laufen (Load Balancer, Target Groups, Auto Scaler)
+
+Lösung:
+
+
+
 mongodb.com details:
 user: felipepereira_db_user
 password: Qv7lJ7y5Kc2lBRT8

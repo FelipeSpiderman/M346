@@ -1,0 +1,11 @@
+use shop;
+
+db.product.drop();
+db.product.insertOne({_id:ObjectId("64be291f889298ff68bb72fc"), name:'Running Shoes', stock:20, price: 129.15});
+db.product.insertOne({_id:ObjectId("64be29704447d0410ae99dad"), name:'Wakeboard', stock:5, price: 492.9});
+db.product.insertOne({_id:ObjectId("64be2975d591873d27e53015"), name:'Standup Paddle', stock:10, price: 699});
+db.product.insertOne({_id:ObjectId("64be297c71329c0ccdfcacdf"), name:'Badminton Racket', stock:12, price: 53.7});
+
+db.user.drop();
+db.user.insertOne({_id:ObjectId("64be29eeed52b1f342e71f8f"), username:'marcel934', password:'<secret>', name:'Marcel',cart:[{product_id: ObjectId("64be291f889298ff68bb72fc"), amount:2},{product_id: ObjectId("64be297c71329c0ccdfcacdf"), amount:1}]});
+db.user.insertOne({_id:ObjectId("64be29f2d1ca3b1c1d3037b5"), username:'nicci1', password:'<secret>', name:'Nicole',cart:[{product_id: ObjectId("64be29704447d0410ae99dad"), amount:1}]});
