@@ -1,4 +1,3 @@
-#cloud-config
 users:
   - name: ubuntu
     sudo: ALL=(ALL) NOPASSWD:ALL
@@ -49,6 +48,19 @@ write_files:
         }
       }
     path: /home/ubuntu/nginx
+  - content: |
+      {
+        "Logging": {
+          "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+          }
+        },
+        "AllowedHosts": "*",
+        "ConnectionURI": "mongodb+srv://connection:e2WM3aeuUwEuVths@cluster0.y0wxtsm.mongodb.net/?retryWrites=true&w=majority",
+        "DatabaseName": "shop"
+      }
+    path: /home/ubuntu/appsettings-fixed.json
 runcmd:
   - sudo git clone https://gitlab.com/ch-tbz-it/Stud/m346/m346scripts.git /home/ubuntu/m346scripts
   # install mongodb shell
@@ -57,14 +69,11 @@ runcmd:
   - sudo apt-get update
   - sudo apt-get install -y mongodb-mongosh
   # import mongodb collections
-  - mongosh "mongodb+srv://[[cluster0.9jqkd9k.mongodb.net/]]/" -u [[felipepereira_db_user]] -p [[Qv7lJ7y5Kc2lBRT8]] < /home/ubuntu/m346scripts/KN06/shop-database-mongodb.txt
+  - mongosh "mongodb+srv://connection:e2WM3aeuUwEuVths@cluster0.y0wxtsm.mongodb.net/" < /home/ubuntu/m346scripts/KN06/shop-database-mongodb.txt
   # install App
-  - sudo mkdir /var/www
-  - sudo mkdir /var/www/app
-  - sudo sed -i 's/<clusterUrl>/[[mongodb+srv://cluster0.9jqkd9k.mongodb.net/]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
-  - sudo sed -i 's/<username>/[[felipepereira_db_user]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
-  - sudo sed -i 's/<password>/[[Qv7lJ7y5Kc2lBRT8]]/g' /home/ubuntu/m346scripts/KN06/dotnet/appsettings.json
+  - sudo mkdir -p /var/www/app
   - sudo cp -r /home/ubuntu/m346scripts/KN06/dotnet/* /var/www/app/
+  - sudo cp /home/ubuntu/appsettings-fixed.json /var/www/app/appsettings.json
   - sudo systemctl enable shop-app.service
   - sudo systemctl start shop-app.service
   - sudo service nginx start
